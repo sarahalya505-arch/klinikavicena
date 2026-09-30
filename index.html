@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Klinik Avicena - Pelayanan Kesehatan Modern & Terpercaya</title>
+
+  <!-- Tailwind CSS & Lucide Icons -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'sans-serif'],
+          },
+          colors: {
+            brand: {
+              50: '#f0f9ff',
+              100: '#e0f2fe',
+              400: '#38bdf8',
+              500: '#0ea5e9',
+              600: '#0284c7',
+              700: '#0369a1',
+              darkBg: '#0b0f19',
+              cardBg: '#111827',
+              border: '#1f293d',
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-[#0b0f19] text-gray-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
+
+  <!-- Header & Navigasi -->
+  <header class="sticky top-0 z-40 bg-[#0b0f19]/90 backdrop-blur-md border-b border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-brand-400 flex items-center justify-center text-white shadow-lg shadow-brand-500/20 group-hover:scale-105 transition-transform">
+            <i data-lucide="cross" class="w-6 h-6 stroke-[2.5]"></i>
+          </div>
+          <div>
+            <span class="text-xl font-bold text-white tracking-wide block leading-none">AVICENA</span>
+            <span class="text-xs text-brand-400 font-medium tracking-widest uppercase">Klinik Utama</span>
+          </div>
+        </a>
+
+        <!-- Menu Desktop -->
+        <nav class="hidden lg:flex items-center gap-8 text-sm font-medium text-gray-300">
+          <a href="#beranda" class="hover:text-brand-400 transition-colors">Beranda</a>
+          <a href="#layanan" class="hover:text-brand-400 transition-colors">Layanan</a>
+          <a href="#tentang" class="hover:text-brand-400 transition-colors">Tentang Kami</a>
+          <a href="#dokter" class="hover:text-brand-400 transition-colors">Tim Dokter</a>
+          <a href="#kalkulator" class="hover:text-brand-400 transition-colors">Kalkulator BMI</a>
+          <a href="#testimoni" class="hover:text-brand-400 transition-colors">Testimoni</a>
+        </nav>
+
+        <!-- Kontak & CTA -->
+        <div class="hidden sm:flex items-center gap-4">
+          <a href="https://wa.me/6285883775921" target="_blank" class="flex items-center gap-2 text-sm text-gray-300 hover:text-white transition-colors py-2 px-3 rounded-lg hover:bg-gray-800/50">
+            <i data-lucide="phone-call" class="w-4 h-4 text-brand-400"></i>
+            <span>085883775921</span>
+          </a>
+          <button onclick="openModal()" class="bg-brand-500 hover:bg-brand-600 text-white font-semibold text-sm px-5 py-2.5 rounded-xl shadow-lg shadow-brand-500/25 hover:shadow-brand-500/40 transition-all hover:-translate-y-0.5">
+            Buat Janji Temu
+          </button>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" onclick="toggleMobileMenu()" class="lg:hidden p-2 rounded-lg text-gray-400 hover:text-white hover:bg-gray-800">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobile-menu" class="hidden lg:hidden bg-brand-cardBg border-b border-brand-border px-4 pt-2 pb-6 space-y-3">
+      <a href="#beranda" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-400">Beranda</a>
+      <a href="#layanan" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-400">Layanan</a>
+      <a href="#tentang" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-400">Tentang Kami</a>
+      <a href="#dokter" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-400">Tim Dokter</a>
+      <a href="#kalkulator" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-400">Kalkulator BMI</a>
+      <a href="#testimoni" onclick="toggleMobileMenu()" class="block py-2 text-gray-300 hover:text-brand-400">Testimoni</a>
+      <div class="pt-4 border-t border-gray-800 space-y-3">
+        <a href="https://wa.me/6285883775921" target="_blank" class="flex items-center gap-2 text-gray-300">
+          <i data-lucide="phone-call" class="w-4 h-4 text-brand-400"></i>
+          <span>085883775921</span>
+        </a>
+        <button onclick="openModal(); toggleMobileMenu();" class="w-full bg-brand-500 hover:bg-brand-600 text-white py-2.5 rounded-xl text-center font-semibold">
+          Buat Janji Temu
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section -->
+  <section id="beranda" class="relative pt-12 pb-20 md:pt-20 md:pb-32 overflow-hidden">
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-500/10 rounded-full blur-[120px] -z-10 pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-12 gap-12 items-center">
+        <!-- Teks Utama -->
+        <div class="lg:col-span-7 space-y-8 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-brand-500/10 border border-brand-500/20 text-brand-400 text-xs font-semibold">
+            <span class="w-2 h-2 rounded-full bg-brand-400 animate-pulse"></span>
+            Pelayanan Kesehatan Online & Onsite Terbaik
+          </div>
+
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-[1.15]">
+            Perawatan Penuh Kasih untuk <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand-400 to-blue-500">Kesehatan Anda</span>
+          </h1>
+
+          <p class="text-lg text-gray-400 max-w-2xl mx-auto lg:mx-0 font-normal">
+            Klinik Avicena menghadirkan layanan medis komprehensif berstandar tinggi. Konsultasi dokter spesialis, perawatan keluarga, hingga janji temu online menjadi lebih mudah dan fleksibel.
+          </p>
+
+          <div class="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4">
+            <button onclick="openModal()" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-brand-500 hover:bg-brand-600 text-white font-semibold px-7 py-3.5 rounded-xl shadow-lg shadow-brand-500/25 transition-all hover:-translate-y-0.5">
+              <i data-lucide="calendar" class="w-5 h-5"></i>
+              <span>Buat Janji Temu</span>
+            </button>
+            <a href="https://wa.me/6285883775921?text=Halo%20Klinik%20Avicena,%20saya%20ingin%20berkonsultasi" target="_blank" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold px-7 py-3.5 rounded-xl shadow-lg shadow-emerald-600/20 transition-all hover:-translate-y-0.5">
+              <i data-lucide="message-square" class="w-5 h-5"></i>
+              <span>Konsultasi WhatsApp</span>
+            </a>
+          </div>
+
+          <!-- Indikator Layanan & Status Klinik -->
+          <div class="pt-6 border-t border-gray-800/80 flex flex-wrap items-center justify-center lg:justify-start gap-6 text-xs text-gray-400">
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-400"></i>
+              <span>Dokter Berpengalaman</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <i data-lucide="check-circle-2" class="w-4 h-4 text-brand-400"></i>
+              <span>Fasilitas Modern</span>
+            </div>
+            <div id="status-klinik" class="flex items-center gap-2 font-medium px-3 py-1 rounded-full bg-gray-800 text-gray-300">
+              <span id="status-dot" class="w-2 h-2 rounded-full bg-emerald-500"></span>
+              <span id="status-text">Memuat status klinik...</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Banner Visual / Kartu Ringkas Dokter -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative rounded-3xl bg-gradient-to-b from-brand-cardBg to-gray-900 border border-brand-border p-6 shadow-2xl overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-40 h-40 bg-brand-500/20 rounded-full blur-2xl"></div>
+            
+            <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=800&auto=format&fit=crop" alt="Dokter Avicena" class="w-full h-80 object-cover rounded-2xl mb-6 shadow-md">
+
+            <div class="bg-gray-800/80 backdrop-blur-md rounded-2xl p-4 border border-gray-700/50 flex items-center gap-4">
+              <div class="w-12 h-12 rounded-xl bg-brand-500/20 text-brand-400 flex items-center justify-center shrink-0">
+                <i data-lucide="clock" class="w-6 h-6"></i>
+              </div>
+              <div>
+                <h4 class="text-white text-sm font-semibold">Jam Operasional Layanan</h4>
+                <p class="text-xs text-gray-400">Senin - Minggu | 08:00 - 20:00 WIB</p>
+                <p class="text-xs text-emerald-400 font-medium mt-0.5">Layanan IGD & UGD Sedia 24/7</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Ringkasan Statistik -->
+  <section class="border-y border-brand-border bg-brand-cardBg/50 py-10">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+        <div class="space-y-1">
+          <div class="text-3xl sm:text-4xl font-extrabold text-brand-400">15,000+</div>
+          <div class="text-xs sm:text-sm text-gray-400">Pasien Terlayani</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-3xl sm:text-4xl font-extrabold text-brand-400">20+</div>
+          <div class="text-xs sm:text-sm text-gray-400">Dokter Spesialis</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-3xl sm:text-4xl font-extrabold text-brand-400">98%</div>
+          <div class="text-xs sm:text-sm text-gray-400">Tingkat Kepuasan</div>
+        </div>
+        <div class="space-y-1">
+          <div class="text-3xl sm:text-4xl font-extrabold text-brand-400">7 Hari</div>
+          <div class="text-xs sm:text-sm text-gray-400">Layanan Seminggu</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Layanan Medis -->
+  <section id="layanan" class="py-20 relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Layanan Kami</h2>
+        <p class="text-3xl sm:text-4xl font-bold text-white">Layanan Kesehatan Komprehensif</p>
+        <p class="text-gray-400 text-sm mt-3">Kami menyediakan berbagai pengobatan dan pemeriksaan medis terpadu untuk Anda dan keluarga.</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Card Layanan 1 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl hover:border-brand-500/50 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <i data-lucide="stethoscope" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Konsultasi Umum</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Pemeriksaan kesehatan rutin dan diagnosa medis awal oleh tim dokter umum berpengalaman.</p>
+          <button onclick="openModal('Konsultasi Umum')" class="text-sm font-semibold text-brand-400 hover:text-brand-300 inline-flex items-center gap-1">
+            Daftar Sekarang <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Card Layanan 2 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl hover:border-brand-500/50 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <i data-lucide="baby" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Poliklinik Anak</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Layanan tumbuh kembang anak, imunisasi, dan penanganan kesehatan bayi & anak-anak.</p>
+          <button onclick="openModal('Poliklinik Anak')" class="text-sm font-semibold text-brand-400 hover:text-brand-300 inline-flex items-center gap-1">
+            Daftar Sekarang <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Card Layanan 3 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl hover:border-brand-500/50 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <i data-lucide="heart-pulse" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Spesialis Jantung</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Pemeriksaan fungsi kardiovaskular, EKG, dan konsultasi kesehatan jantung komprehensif.</p>
+          <button onclick="openModal('Spesialis Jantung')" class="text-sm font-semibold text-brand-400 hover:text-brand-300 inline-flex items-center gap-1">
+            Daftar Sekarang <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Card Layanan 4 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl hover:border-brand-500/50 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <i data-lucide="flask-conical" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Laboratorium Lengkap</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Tes darah, urinalisis, dan pemeriksaan laboratorium terpadu dengan hasil yang cepat & akurat.</p>
+          <button onclick="openModal('Laboratorium')" class="text-sm font-semibold text-brand-400 hover:text-brand-300 inline-flex items-center gap-1">
+            Daftar Sekarang <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Card Layanan 5 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl hover:border-brand-500/50 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <i data-lucide="syringe" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Vaksinasi & Imunisasi</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Layanan imunisasi wajib anak dan vaksinasi dewasa (Flu, Hepatitis, Meningitis, dll).</p>
+          <button onclick="openModal('Vaksinasi & Imunisasi')" class="text-sm font-semibold text-brand-400 hover:text-brand-300 inline-flex items-center gap-1">
+            Daftar Sekarang <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Card Layanan 6 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl hover:border-brand-500/50 transition-all hover:-translate-y-1 group">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mb-5 group-hover:bg-brand-500 group-hover:text-white transition-colors">
+            <i data-lucide="activity" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-xl font-bold text-white mb-2">Medical Check-Up</h3>
+          <p class="text-gray-400 text-sm leading-relaxed mb-4">Paket evaluasi kesehatan menyeluruh untuk individu, karyawan, maupun calon pengantin.</p>
+          <button onclick="openModal('Medical Check-Up')" class="text-sm font-semibold text-brand-400 hover:text-brand-300 inline-flex items-center gap-1">
+            Daftar Sekarang <i data-lucide="chevron-right" class="w-4 h-4"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tentang Kami Section -->
+  <section id="tentang" class="py-20 bg-brand-cardBg/30 border-y border-brand-border">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <img src="https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?q=80&w=800&auto=format&fit=crop" alt="Gedung Klinik Avicena" class="rounded-3xl border border-brand-border shadow-2xl object-cover w-full h-[400px]">
+        </div>
+        <div class="space-y-6">
+          <h2 class="text-xs uppercase font-bold tracking-widest text-brand-400">Tentang Klinik Avicena</h2>
+          <h3 class="text-3xl sm:text-4xl font-bold text-white">Mitra Utama Kesehatan Keluarga Anda</h3>
+          <p class="text-gray-400 text-sm leading-relaxed">
+            Di Klinik Avicena, kami meyakini bahwa layanan kesehatan berkualitas bukan sekadar pengobatan, melainkan pembangunan hubungan jangka panjang yang didasari rasa percaya dan kepedulian.
+          </p>
+          <div class="grid sm:grid-cols-2 gap-4 pt-2">
+            <div class="p-4 rounded-xl bg-brand-cardBg border border-brand-border">
+              <i data-lucide="user-check" class="w-6 h-6 text-brand-400 mb-2"></i>
+              <h4 class="text-white font-semibold text-sm">Berpusat Pada Pasien</h4>
+              <p class="text-gray-400 text-xs mt-1">Kenyamanan dan keselamatan Anda adalah prioritas utama kami.</p>
+            </div>
+            <div class="p-4 rounded-xl bg-brand-cardBg border border-brand-border">
+              <i data-lucide="shield-check" class="w-6 h-6 text-brand-400 mb-2"></i>
+              <h4 class="text-white font-semibold text-sm">Teknologi Modern</h4>
+              <p class="text-gray-400 text-xs mt-1">Peralatan medis canggih untuk diagnosa tepat dan efisien.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FITUR INTERAKTIF 1: Tim Dokter + Filter Spesialisasi -->
+  <section id="dokter" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Tim Dokter Kami</h2>
+        <p class="text-3xl sm:text-4xl font-bold text-white">Dokter Ahli & Berpengalaman</p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div class="flex flex-wrap justify-center gap-2 mb-12">
+        <button onclick="filterDokter('all')" class="filter-btn active bg-brand-500 text-white text-xs font-semibold px-4 py-2 rounded-full transition-all">Semua</button>
+        <button onclick="filterDokter('Umum')" class="filter-btn bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-4 py-2 rounded-full transition-all">Dokter Umum</button>
+        <button onclick="filterDokter('Anak')" class="filter-btn bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-4 py-2 rounded-full transition-all">Spesialis Anak</button>
+        <button onclick="filterDokter('Jantung')" class="filter-btn bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-4 py-2 rounded-full transition-all">Spesialis Jantung</button>
+        <button onclick="filterDokter('Kandungan')" class="filter-btn bg-gray-800 hover:bg-gray-700 text-gray-300 text-xs font-semibold px-4 py-2 rounded-full transition-all">Kandungan</button>
+      </div>
+
+      <!-- Grid List Dokter -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" id="dokter-container">
+        <!-- Dokter 1 -->
+        <div class="dokter-card bg-brand-cardBg border border-brand-border rounded-2xl overflow-hidden hover:border-brand-500/50 transition-all" data-category="Umum">
+          <img src="https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?q=80&w=400&auto=format&fit=crop" alt="dr. Budi Santoso" class="w-full h-56 object-cover">
+          <div class="p-5">
+            <h3 class="text-lg font-bold text-white">dr. Budi Santoso</h3>
+            <p class="text-xs text-brand-400 font-medium mb-3">Dokter Umum</p>
+            <p class="text-xs text-gray-400 mb-4">Pengalaman 10+ Tahun dalam medis umum & preventif.</p>
+            <button onclick="openModal('Konsultasi Umum', 'dr. Budi Santoso')" class="w-full bg-gray-800 hover:bg-brand-500 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Pilih Dokter</button>
+          </div>
+        </div>
+
+        <!-- Dokter 2 -->
+        <div class="dokter-card bg-brand-cardBg border border-brand-border rounded-2xl overflow-hidden hover:border-brand-500/50 transition-all" data-category="Anak">
+          <img src="https://images.unsplash.com/photo-1594824813566-78a9c29804b7?q=80&w=400&auto=format&fit=crop" alt="dr. Sarah Wijaya, Sp.A" class="w-full h-56 object-cover">
+          <div class="p-5">
+            <h3 class="text-lg font-bold text-white">dr. Sarah Wijaya, Sp.A</h3>
+            <p class="text-xs text-brand-400 font-medium mb-3">Spesialis Anak</p>
+            <p class="text-xs text-gray-400 mb-4">Ahli tumbuh kembang anak & kesehatan pediatrik.</p>
+            <button onclick="openModal('Poliklinik Anak', 'dr. Sarah Wijaya, Sp.A')" class="w-full bg-gray-800 hover:bg-brand-500 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Pilih Dokter</button>
+          </div>
+        </div>
+
+        <!-- Dokter 3 -->
+        <div class="dokter-card bg-brand-cardBg border border-brand-border rounded-2xl overflow-hidden hover:border-brand-500/50 transition-all" data-category="Jantung">
+          <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=400&auto=format&fit=crop" alt="dr. David Pratama, Sp.JP" class="w-full h-56 object-cover">
+          <div class="p-5">
+            <h3 class="text-lg font-bold text-white">dr. David Pratama, Sp.JP</h3>
+            <p class="text-xs text-brand-400 font-medium mb-3">Spesialis Jantung</p>
+            <p class="text-xs text-gray-400 mb-4">Pengalaman 15+ Tahun dalam perawatan kardiovaskular.</p>
+            <button onclick="openModal('Spesialis Jantung', 'dr. David Pratama, Sp.JP')" class="w-full bg-gray-800 hover:bg-brand-500 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Pilih Dokter</button>
+          </div>
+        </div>
+
+        <!-- Dokter 4 -->
+        <div class="dokter-card bg-brand-cardBg border border-brand-border rounded-2xl overflow-hidden hover:border-brand-500/50 transition-all" data-category="Kandungan">
+          <img src="https://images.unsplash.com/photo-1559839734-2b71ea197ec2?q=80&w=400&auto=format&fit=crop" alt="dr. Anita Putri, Sp.OG" class="w-full h-56 object-cover">
+          <div class="p-5">
+            <h3 class="text-lg font-bold text-white">dr. Anita Putri, Sp.OG</h3>
+            <p class="text-xs text-brand-400 font-medium mb-3">Spesialis Kandungan</p>
+            <p class="text-xs text-gray-400 mb-4">Ahli kesehatan wanita, kehamilan, dan persalinan.</p>
+            <button onclick="openModal('Kandungan & Kebidanan', 'dr. Anita Putri, Sp.OG')" class="w-full bg-gray-800 hover:bg-brand-500 text-white text-xs font-semibold py-2 rounded-lg transition-colors">Pilih Dokter</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FITUR INTERAKTIF 2: Kalkulator Indeks Massa Tubuh (BMI) -->
+  <section id="kalkulator" class="py-16 bg-brand-cardBg/40 border-y border-brand-border">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-brand-cardBg border border-brand-border rounded-3xl p-6 sm:p-10 shadow-2xl">
+        <div class="text-center max-w-xl mx-auto mb-8">
+          <div class="w-12 h-12 rounded-xl bg-brand-500/10 text-brand-400 flex items-center justify-center mx-auto mb-3">
+            <i data-lucide="calculator" class="w-6 h-6"></i>
+          </div>
+          <h3 class="text-2xl font-bold text-white">Kalkulator Kesehatan BMI</h3>
+          <p class="text-gray-400 text-xs mt-1">Cek Indeks Massa Tubuh Anda secara cepat untuk mengetahui kategori berat badan ideal.</p>
+        </div>
+
+        <form id="bmi-form" onsubmit="hitungBMI(event)" class="grid sm:grid-cols-2 gap-6">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-2">Berat Badan (kg)</label>
+            <input type="number" id="bmi-weight" placeholder="Contoh: 65" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 text-sm">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-2">Tinggi Badan (cm)</label>
+            <input type="number" id="bmi-height" placeholder="Contoh: 170" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-brand-500 text-sm">
+          </div>
+          <div class="sm:col-span-2">
+            <button type="submit" class="w-full bg-brand-500 hover:bg-brand-600 text-white font-semibold py-3 rounded-xl transition-colors text-sm">
+              Hitung BMI Saya
+            </button>
+          </div>
+        </form>
+
+        <!-- Output Hasil BMI -->
+        <div id="bmi-result" class="hidden mt-6 p-6 rounded-2xl bg-gray-900 border border-gray-800 text-center">
+          <p class="text-xs text-gray-400 uppercase tracking-widest font-bold">Skor BMI Anda</p>
+          <div id="bmi-score" class="text-4xl font-extrabold text-brand-400 my-2">0.0</div>
+          <div id="bmi-category" class="inline-block px-3 py-1 rounded-full text-xs font-bold bg-brand-500/20 text-brand-300 mb-2">Normal</div>
+          <p id="bmi-advice" class="text-xs text-gray-300 max-w-md mx-auto"></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FITUR INTERAKTIF 3: Testimoni Pasien & Form Ulasan Baru -->
+  <section id="testimoni" class="py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-12">
+        <h2 class="text-xs uppercase font-bold tracking-widest text-brand-400 mb-2">Testimoni</h2>
+        <p class="text-3xl sm:text-4xl font-bold text-white">Apa Kata Pasien Kami</p>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-6" id="testimoni-list">
+        <!-- Testimoni Card 1 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex text-amber-400 gap-1 mb-4">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+            </div>
+            <p class="text-gray-300 text-sm italic mb-6">"Pelayanan di Klinik Avicena sangat profesional dan ramah. Pendaftaran online memudahkan saya tanpa perlu antre lama."</p>
+          </div>
+          <div class="flex items-center gap-3 border-t border-gray-800 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">JM</div>
+            <div>
+              <h4 class="text-white text-sm font-semibold">Jessica M.</h4>
+              <p class="text-xs text-gray-400">Pasien Umum</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimoni Card 2 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex text-amber-400 gap-1 mb-4">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+            </div>
+            <p class="text-gray-300 text-sm italic mb-6">"Dokter spesialis anaknya sangat sabar mendengarkan keluhan. Ruang kliniknya sangat bersih dan ramah anak."</p>
+          </div>
+          <div class="flex items-center gap-3 border-t border-gray-800 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">RK</div>
+            <div>
+              <h4 class="text-white text-sm font-semibold">Robert K.</h4>
+              <p class="text-xs text-gray-400">Orang Tua Pasien</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimoni Card 3 -->
+        <div class="bg-brand-cardBg border border-brand-border p-6 rounded-2xl flex flex-col justify-between">
+          <div>
+            <div class="flex text-amber-400 gap-1 mb-4">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+            </div>
+            <p class="text-gray-300 text-sm italic mb-6">"Sudah bertahun-tahun berlangganan check-up keluarga di sini. Respons WhatsApp sangat cepat dan tanggap."</p>
+          </div>
+          <div class="flex items-center gap-3 border-t border-gray-800 pt-4">
+            <div class="w-10 h-10 rounded-full bg-brand-500/20 text-brand-400 flex items-center justify-center font-bold text-sm">AL</div>
+            <div>
+              <h4 class="text-white text-sm font-semibold">Amanda L.</h4>
+              <p class="text-xs text-gray-400">Pasien Routine</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Banner CTA Janji Temu -->
+  <section class="py-12 bg-gradient-to-r from-brand-700 to-brand-600">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-6">
+      <div>
+        <h3 class="text-2xl font-bold text-white">Siap Mendapatkan Layanan Kesehatan Terbaik?</h3>
+        <p class="text-brand-100 text-sm mt-1">Daftarkan janji temu Anda sekarang juga dan dapatkan kepastian jadwal tanpa antre.</p>
+      </div>
+      <button onclick="openModal()" class="shrink-0 bg-white hover:bg-gray-100 text-brand-700 font-bold px-6 py-3 rounded-xl shadow-lg transition-all">
+        Buat Janji Sekarang
+      </button>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-[#070a11] border-t border-brand-border pt-16 pb-12 text-gray-400 text-sm">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+        <!-- Kolom 1 -->
+        <div class="space-y-4">
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-lg bg-brand-500 flex items-center justify-center text-white font-bold">
+              <i data-lucide="cross" class="w-5 h-5"></i>
+            </div>
+            <span class="text-lg font-bold text-white tracking-wide">AVICENA</span>
+          </div>
+          <p class="text-xs leading-relaxed">
+            Klinik kesehatan keluarga modern terpercaya dengan pelayanan sepenuh hati dan fasilitas medis yang unggul.
+          </p>
+        </div>
+
+        <!-- Kolom 2 -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-xs uppercase tracking-wider">Tautan Cepat</h4>
+          <ul class="space-y-2.5 text-xs">
+            <li><a href="#beranda" class="hover:text-white transition-colors">Beranda</a></li>
+            <li><a href="#layanan" class="hover:text-white transition-colors">Layanan Medis</a></li>
+            <li><a href="#tentang" class="hover:text-white transition-colors">Tentang Kami</a></li>
+            <li><a href="#dokter" class="hover:text-white transition-colors">Tim Dokter</a></li>
+            <li><a href="#kalkulator" class="hover:text-white transition-colors">Kalkulator BMI</a></li>
+          </ul>
+        </div>
+
+        <!-- Kolom 3 -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-xs uppercase tracking-wider">Kontak & Lokasi</h4>
+          <ul class="space-y-3 text-xs">
+            <li class="flex items-start gap-2.5">
+              <i data-lucide="map-pin" class="w-4 h-4 text-brand-400 shrink-0 mt-0.5"></i>
+              <span>Jl. Kesehatan No. 123, Jakarta, Indonesia</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="phone" class="w-4 h-4 text-brand-400 shrink-0"></i>
+              <a href="https://wa.me/6285883775921" class="hover:text-white">085883775921</a>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="mail" class="w-4 h-4 text-brand-400 shrink-0"></i>
+              <span>info@klinikavicena.com</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Kolom 4 -->
+        <div>
+          <h4 class="text-white font-semibold mb-4 text-xs uppercase tracking-wider">Jam Layanan</h4>
+          <p class="text-xs text-gray-400 mb-2">Poliklinik: Senin - Minggu (08:00 - 20:00 WIB)</p>
+          <p class="text-xs text-emerald-400 font-semibold mb-4">UGD & Ambulans: 24 Jam Nonstop</p>
+          <a href="https://wa.me/6285883775921" target="_blank" class="inline-flex items-center gap-2 text-xs bg-emerald-600 hover:bg-emerald-700 text-white px-4 py-2 rounded-lg font-medium transition-colors">
+            <i data-lucide="message-circle" class="w-4 h-4"></i> WhatsApp CS
+          </a>
+        </div>
+      </div>
+
+      <div class="border-t border-gray-800 pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4">
+        <p>&copy; 2026 Klinik Avicena. Hak Cipta Dilindungi Undang-Undang.</p>
+        <div class="flex gap-6">
+          <a href="#" class="hover:text-gray-400">Kebijakan Privasi</a>
+          <a href="#" class="hover:text-gray-400">Syarat & Ketentuan</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- MODAL FORM JANJI TEMU ONLINE -->
+  <div id="modal-appointment" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-brand-cardBg border border-brand-border rounded-3xl w-full max-w-lg overflow-hidden shadow-2xl transition-all">
+      <div class="p-6 border-b border-gray-800 flex items-center justify-between">
+        <div>
+          <h3 class="text-xl font-bold text-white">Buat Janji Temu Medis</h3>
+          <p class="text-xs text-gray-400 mt-0.5">Isi data di bawah untuk reservasi antrean</p>
+        </div>
+        <button onclick="closeModal()" class="text-gray-400 hover:text-white p-1 rounded-lg">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+      </div>
+
+      <form id="form-pendaftaran" onsubmit="submitForm(event)" class="p-6 space-y-4">
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Nama Lengkap Pasien *</label>
+          <input type="text" id="input-nama" required placeholder="Sesuai KTP / Identitas" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Nomor WhatsApp *</label>
+          <input type="tel" id="input-telepon" required placeholder="085883775921" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Pilih Layanan</label>
+            <select id="input-layanan" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
+              <option value="Konsultasi Umum">Konsultasi Umum</option>
+              <option value="Poliklinik Anak">Poliklinik Anak</option>
+              <option value="Spesialis Jantung">Spesialis Jantung</option>
+              <option value="Kandungan & Kebidanan">Kandungan</option>
+              <option value="Laboratorium">Laboratorium</option>
+              <option value="Medical Check-Up">Medical Check-Up</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Pilihan Dokter</label>
+            <select id="input-dokter" class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
+              <option value="Bebas / Rekomendasi">Bebas / Rekomendasi</option>
+              <option value="dr. Budi Santoso">dr. Budi Santoso</option>
+              <option value="dr. Sarah Wijaya, Sp.A">dr. Sarah Wijaya, Sp.A</option>
+              <option value="dr. David Pratama, Sp.JP">dr. David Pratama, Sp.JP</option>
+              <option value="dr. Anita Putri, Sp.OG">dr. Anita Putri, Sp.OG</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Tanggal Kunjungan</label>
+            <input type="date" id="input-tanggal" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
+          </div>
+          <div>
+            <label class="block text-xs font-semibold text-gray-300 mb-1">Jam Kunjungan</label>
+            <input type="time" id="input-waktu" required class="w-full bg-gray-900 border border-gray-700 rounded-xl px-3 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-gray-300 mb-1">Catatan Keluhan Singkat</label>
+          <textarea id="input-catatan" rows="2" placeholder="Jelaskan keluhan kesehatan Anda..." class="w-full bg-gray-900 border border-gray-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-brand-500"></textarea>
+        </div>
+
+        <div class="pt-2 flex gap-3">
+          <button type="button" onclick="closeModal()" class="w-1/2 bg-gray-800 hover:bg-gray-700 text-gray-300 py-3 rounded-xl text-sm font-semibold transition-colors">Batal</button>
+          <button type="submit" id="btn-submit" class="w-1/2 bg-brand-500 hover:bg-brand-600 text-white py-3 rounded-xl text-sm font-semibold shadow-lg shadow-brand-500/20 transition-colors">Kirim Pendaftaran</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 hidden bg-emerald-600 text-white px-5 py-3.5 rounded-2xl shadow-xl flex items-center gap-3 border border-emerald-500/50">
+    <i data-lucide="check-circle" class="w-5 h-5"></i>
+    <span id="toast-message" class="text-sm font-medium">Notifikasi</span>
+  </div>
+
+  <!-- JAVASCRIPT CLIENT INTERAKTIF -->
+  <script>
+    // Inisialisasi Ikon Lucide
+    lucide.createIcons();
+
+    // 1. Cek Status Buka/Tutup Klinik Berdasarkan Jam Saat Ini
+    function updateStatusKlinik() {
+      const now = new Date();
+      const hour = now.getHours();
+      const statusDot = document.getElementById('status-dot');
+      const statusText = document.getElementById('status-text');
+
+      // Buka pukul 08:00 - 20:00 WIB
+      if (hour >= 8 && hour < 20) {
+        statusDot.className = 'w-2 h-2 rounded-full bg-emerald-500 animate-pulse';
+        statusText.innerText = 'Klinik Sedang Buka (08:00 - 20:00 WIB)';
+      } else {
+        statusDot.className = 'w-2 h-2 rounded-full bg-amber-500';
+        statusText.innerText = 'Poliklinik Tutup • UGD Tetap Melayani 24 Jam';
+      }
+    }
+    updateStatusKlinik();
+
+    // 2. Navigasi Mobile Drawer
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobile-menu');
+      menu.classList.toggle('hidden');
+    }
+
+    // 3. Modal Handlers
+    function openModal(layanan = '', dokter = '') {
+      document.getElementById('modal-appointment').classList.remove('hidden');
+      if (layanan) document.getElementById('input-layanan').value = layanan;
+      if (dokter) document.getElementById('input-dokter').value = dokter;
+    }
+
+    function closeModal() {
+      document.getElementById('modal-appointment').classList.add('hidden');
+    }
+
+    // 4. Filter Tim Dokter
+    function filterDokter(category) {
+      const cards = document.querySelectorAll('.dokter-card');
+      const btns = document.querySelectorAll('.filter-btn');
+
+      btns.forEach(btn => {
+        btn.classList.remove('bg-brand-500', 'text-white');
+        btn.classList.add('bg-gray-800', 'text-gray-300');
+      });
+      event.target.classList.remove('bg-gray-800', 'text-gray-300');
+      event.target.classList.add('bg-brand-500', 'text-white');
+
+      cards.forEach(card => {
+        if (category === 'all' || card.dataset.category === category) {
+          card.style.display = 'block';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 5. Kalkulator BMI Interaktif
+    function hitungBMI(e) {
+      e.preventDefault();
+      const weight = parseFloat(document.getElementById('bmi-weight').value);
+      const height = parseFloat(document.getElementById('bmi-height').value) / 100;
+
+      if (!weight || !height) return;
+
+      const bmi = (weight / (height * height)).toFixed(1);
+      const resultDiv = document.getElementById('bmi-result');
+      const scoreEl = document.getElementById('bmi-score');
+      const categoryEl = document.getElementById('bmi-category');
+      const adviceEl = document.getElementById('bmi-advice');
+
+      scoreEl.innerText = bmi;
+      resultDiv.classList.remove('hidden');
+
+      if (bmi < 18.5) {
+        categoryEl.innerText = 'Kekurangan Berat Badan';
+        categoryEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 mb-2';
+        adviceEl.innerText = 'Disarankan untuk meningkatkan asupan nutrisi seimbang. Silakan berkonsultasi dengan dokter gizi kami.';
+      } else if (bmi >= 18.5 && bmi <= 24.9) {
+        categoryEl.innerText = 'Berat Badan Ideal (Normal)';
+        categoryEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 mb-2';
+        adviceEl.innerText = 'Selamat! Berat badan Anda tergolong sehat. Pertahankan pola makan dan olahraga teratur.';
+      } else if (bmi >= 25 && bmi <= 29.9) {
+        categoryEl.innerText = 'Kelebihan Berat Badan';
+        categoryEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-amber-500/20 text-amber-300 mb-2';
+        adviceEl.innerText = 'Disarankan untuk mengatur pola makan rendah kalori dan rutin berolahraga.';
+      } else {
+        categoryEl.innerText = 'Obesitas';
+        categoryEl.className = 'inline-block px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 mb-2';
+        adviceEl.innerText = 'Disarankan untuk berkonsultasi dengan dokter spesialis kami untuk program penurunan berat badan aman.';
+      }
+    }
+
+    // 6. Submit Pendaftaran Janji Temu (Terintegrasi ke Google Apps Script)
+    function submitForm(e) {
+      e.preventDefault();
+      const btn = document.getElementById('btn-submit');
+      btn.innerText = 'Mengirim...';
+      btn.disabled = true;
+
+      const formData = {
+        nama: document.getElementById('input-nama').value,
+        telepon: document.getElementById('input-telepon').value,
+        layanan: document.getElementById('input-layanan').value,
+        dokter: document.getElementById('input-dokter').value,
+        tanggal: document.getElementById('input-tanggal').value,
+        waktu: document.getElementById('input-waktu').value,
+        catatan: document.getElementById('input-catatan').value
+      };
+
+      // Cek apakah berjalan di lingkungan Google Apps Script
+      if (typeof google !== 'undefined' && google.script && google.script.run) {
+        google.script.run
+          .withSuccessHandler(function(response) {
+            btn.innerText = 'Kirim Pendaftaran';
+            btn.disabled = false;
+            closeModal();
+            showToast(response.message || 'Pendaftaran berhasil!');
+            document.getElementById('form-pendaftaran').reset();
+            
+            // Buka WhatsApp Otomatis sebagai konfirmasi tambahan
+            const waText = `Halo Klinik Avicena, saya telah mendaftar online.%0ANama: ${formData.nama}%0ALayanan: ${formData.layanan}%0ATanggal: ${formData.tanggal} - ${formData.waktu}`;
+            window.open(`https://wa.me/6285883775921?text=${waText}`, '_blank');
+          })
+          .withFailureHandler(function(error) {
+            btn.innerText = 'Kirim Pendaftaran';
+            btn.disabled = false;
+            showToast('Gagal mengirim pendaftaran: ' + error.message);
+          })
+          .simpanPendaftaran(formData);
+      } else {
+        // Mode Simulasi/Lokal
+        setTimeout(() => {
+          btn.innerText = 'Kirim Pendaftaran';
+          btn.disabled = false;
+          closeModal();
+          showToast('Pendaftaran Anda berhasil dikirim ke Klinik Avicena!');
+          document.getElementById('form-pendaftaran').reset();
+
+          const waText = `Halo Klinik Avicena, saya mendaftar online.%0ANama: ${formData.nama}%0ALayanan: ${formData.layanan}%0ATanggal: ${formData.tanggal} jam ${formData.waktu}`;
+          window.open(`https://wa.me/6285883775921?text=${waText}`, '_blank');
+        }, 1000);
+      }
+    }
+
+    // 7. Notifikasi Toast
+    function showToast(message) {
+      const toast = document.getElementById('toast');
+      const msg = document.getElementById('toast-message');
+      msg.innerText = message;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 4000);
+    }
+  </script>
+</body>
+</html>
