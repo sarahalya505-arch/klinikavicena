@@ -1,0 +1,67 @@
+/**
+ * Google Apps Script Backend untuk Website Klinik Avicena
+ * Menangani rendering halaman HTML serta pemrosesan formulir pendaftaran dan testimoni.
+ */
+
+// Menampilkan halaman utama website (index.html)
+function doGet() {
+  return HtmlService.createTemplateFromFile('index')
+    .evaluate()
+    .setTitle('Klinik Avicena - Pelayanan Kesehatan Modern & Terpercaya')
+    .addMetaTag('viewport', 'width=device-width, initial-scale=1.0')
+    .setXFrameOptionsMode(HtmlService.XFrameOptionsMode.ALLOWALL);
+}
+
+// Fungsi pembantu untuk memuat file eksternal jika diperlukan
+function include(filename) {
+  return HtmlService.createHtmlOutputFromFile(filename).getContent();
+}
+
+/**
+ * Menangani pengiriman formulir pendaftaran janji temu
+ * @param {Object} data - Objek berisi data pendaftaran dari frontend
+ * @returns {Object} Respon status keberhasilan
+ */
+function simpanPendaftaran(data) {
+  try {
+    // Opsional: Anda dapat menghubungkan ke Google Sheets di sini untuk menyimpan riwayat pendaftaran
+    // Contoh:
+    // var ss = SpreadsheetApp.getActiveSpreadsheet() || SpreadsheetApp.openById('ID_SPREADSHEET_ANDA');
+    // var sheet = ss.getSheetByName('Pendaftaran') || ss.insertSheet('Pendaftaran');
+    // sheet.appendRow([new Date(), data.nama, data.telepon, data.layanan, data.dokter, data.tanggal, data.waktu, data.catatan]);
+
+    Logger.log("Pendaftaran baru diterima: " + JSON.stringify(data));
+
+    return {
+      status: "success",
+      message: "Pendaftaran Anda berhasil dikirim! Tim Klinik Avicena akan segera menghubungi Anda."
+    };
+  } catch (error) {
+    Logger.log("Error simpan pendaftaran: " + error.toString());
+    return {
+      status: "error",
+      message: "Gagal menyimpan pendaftaran: " + error.toString()
+    };
+  }
+}
+
+/**
+ * Menangani pengiriman testimoni pasien baru
+ * @param {Object} data - Objek berisi nama, ulasan, dan rating pasien
+ * @returns {Object} Respon status keberhasilan
+ */
+function simpanTestimoni(data) {
+  try {
+    Logger.log("Testimoni baru diterima: " + JSON.stringify(data));
+
+    return {
+      status: "success",
+      message: "Terima kasih atas ulasan dan testimoni yang Anda berikan!"
+    };
+  } catch (error) {
+    return {
+      status: "error",
+      message: "Gagal menyimpan testimoni."
+    };
+  }
+}a
