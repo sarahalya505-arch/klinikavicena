@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Klinik Kesehatan Avicena Rajeg - Pendaftaran & Konsultasi Online</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- QR Code Generator CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <!-- Google Font Inter -->
+    <link href="https://script.google.com/macros/s/AKfycbxrfdIFa2e0A4dtlmvkLWsN6MtoJiRlaYQhLWexIHwByftz1bNeuSoQZxV8dSeNKvjj/exec" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#f0fdfa',
+                            100: '#ccfbf1',
+                            500: '#14b8a6',
+                            600: '#0d9488',
+                            700: '#0f766e',
+                            800: '#115e59',
+                            900: '#134e4a',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .gradient-overlay {
+            background: linear-gradient(180deg, rgba(13, 148, 136, 0.85) 0%, rgba(19, 78, 74, 0.95) 100%);
+        }
+        @media print {
+            body * { visibility: hidden; }
+            #printableTicket, #printableTicket * { visibility: visible; }
+            #printableTicket { position: absolute; left: 0; top: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans antialiased min-h-screen flex flex-col">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-40 bg-white/95 backdrop-blur shadow-sm border-b border-slate-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-20">
+                <!-- Logo -->
+                <div class="flex items-center space-x-3 cursor-pointer" onclick="switchTab('beranda')">
+                    <div class="w-12 h-12 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-hospital-user text-2xl"></i>
+                    </div>
+                    <div>
+                        <span class="text-xl font-bold text-slate-900 tracking-tight block leading-tight">Klinik Avicena</span>
+                        <span class="text-xs font-medium text-brand-600 tracking-wider uppercase">Rajeg - Banten</span>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation -->
+                <nav class="hidden md:flex space-x-1 lg:space-x-2">
+                    <button onclick="switchTab('beranda')" id="nav-beranda" class="nav-btn px-4 py-2 rounded-lg text-sm font-semibold text-brand-600 bg-brand-50 transition">Beranda</button>
+                    <button onclick="switchTab('dokter')" id="nav-dokter" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Daftar Dokter</button>
+                    <button onclick="switchTab('pendaftaran')" id="nav-pendaftaran" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Form Pendaftaran</button>
+                    <button onclick="switchTab('antrean')" id="nav-antrean" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Cek Antrean</button>
+                    <button onclick="switchTab('kontak')" id="nav-kontak" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-slate-600 hover:text-brand-600 hover:bg-slate-50 transition">Kontak & WA</button>
+                    <button onclick="switchTab('backend')" id="nav-backend" class="nav-btn px-4 py-2 rounded-lg text-sm font-medium text-amber-600 bg-amber-50 hover:bg-amber-100 transition"><i class="fa-solid fa-code mr-1.5"></i>Kode Backend</button>
+                </nav>
+
+                <!-- Mobile menu button -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobileMenuBtn" onclick="toggleMobileMenu()" class="p-2 rounded-lg text-slate-600 hover:text-slate-900 focus:outline-none">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileMenu" class="hidden md:hidden bg-white border-b border-slate-200 px-4 pt-2 pb-4 space-y-1 shadow-lg">
+            <button onclick="switchTab('beranda')" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Beranda</button>
+            <button onclick="switchTab('dokter')" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Daftar Dokter</button>
+            <button onclick="switchTab('pendaftaran')" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Form Pendaftaran</button>
+            <button onclick="switchTab('antrean')" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Cek Antrean</button>
+            <button onclick="switchTab('kontak')" class="w-full text-left px-3 py-2 rounded-md font-medium text-slate-700 hover:bg-brand-50 hover:text-brand-600">Kontak & WA</button>
+            <button onclick="switchTab('backend')" class="w-full text-left px-3 py-2 rounded-md font-medium text-amber-700 bg-amber-50">Kode Backend (Kode.gs)</button>
+        </div>
+    </header>
+
+    <main class="flex-grow">
+        <!-- TAB 1: BERANDA -->
+        <section id="tab-beranda" class="tab-content block">
+            <!-- Hero Section -->
+            <div class="relative bg-slate-900 text-white overflow-hidden min-h-[520px] flex items-center">
+                <img src="https://placehold.co/1200x600/0f766e/ffffff?text=Foto+Bangunan+Klinik+Kesehatan+Avicena+Rajeg" 
+                     onerror="this.src='https://images.unsplash.com/photo-1586773860418-d37222d8fce3?auto=format&fit=crop&w=1200&q=80'" 
+                     alt="Bangunan Klinik Avicena Rajeg" 
+                     class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 gradient-overlay"></div>
+                <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24">
+                    <div class="max-w-2xl">
+                        <span class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full text-xs font-semibold bg-brand-500/30 text-brand-100 border border-brand-300/30 mb-6 backdrop-blur-sm">
+                            <i class="fa-solid fa-circle text-[8px] text-emerald-400 animate-pulse"></i> Layanan Kesehatan Terpadu Rajeg
+                        </span>
+                        <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight leading-tight mb-4">
+                            Layanan Medis Profesional & Terpercaya untuk Keluarga
+                        </h1>
+                        <p class="text-base sm:text-lg text-slate-200 mb-8 leading-relaxed">
+                            Klinik Kesehatan Avicena Rajeg menghadirkan konsultasi spesialis, penanganan medis darurat 24 jam, dan pendaftaran online instan tanpa antre lama.
+                        </p>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="switchTab('pendaftaran')" class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl font-semibold bg-emerald-500 hover:bg-emerald-600 text-white shadow-lg shadow-emerald-600/30 transition transform active:scale-95">
+                                <i class="fa-solid fa-calendar-check mr-2"></i> Daftar Konsultasi Sekarang
+                            </button>
+                            <button onclick="switchTab('dokter')" class="inline-flex items-center justify-center px-6 py-3.5 rounded-xl font-semibold bg-white/10 hover:bg-white/20 text-white border border-white/20 backdrop-blur-sm transition">
+                                <i class="fa-solid fa-user-doctor mr-2"></i> Lihat Dokter Praktik
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Info Cards -->
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-10 mb-16">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-100 flex items-start space-x-4">
+                        <div class="p-3 bg-brand-50 text-brand-600 rounded-xl text-2xl">
+                            <i class="fa-solid fa-clock"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 mb-1">IGD & Umum 24 Jam</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">Siap melayani penderita gawat darurat dan konsultasi dokter umum sepanjang hari.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-100 flex items-start space-x-4">
+                        <div class="p-3 bg-emerald-50 text-emerald-600 rounded-xl text-2xl">
+                            <i class="fa-solid fa-calendar-days"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 mb-1">Booking Online Instan</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">Pilih dokter dan tanggal praktek secara otomatis melalui aplikasi tanpa antre.</p>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md border border-slate-100 flex items-start space-x-4">
+                        <div class="p-3 bg-cyan-50 text-cyan-600 rounded-xl text-2xl">
+                            <i class="fa-solid fa-headset"></i>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 mb-1">Layanan WA Fast Response</h3>
+                            <p class="text-xs text-slate-500 leading-relaxed">Konfirmasi tiket dan konsultasi ringan langsung terhubung ke nomor WhatsApp resmi.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 2: DAFTAR DOKTER -->
+        <section id="tab-dokter" class="tab-content hidden py-12 bg-slate-50">
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div class="text-center max-w-3xl mx-auto mb-12">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-slate-900 mb-3">Tim Dokter & Spesialis</h2>
+                    <p class="text-slate-600 text-sm sm:text-base">Jadwal praktik otomatis terintegrasi. Klik tombol untuk langsung memesan sesi konsultasi.</p>
+                </div>
+
+                <div id="doctorsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                    <!-- Cards Dokter Di-render Via JS -->
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 3: FORM PENDAFTARAN -->
+        <section id="tab-pendaftaran" class="tab-content hidden py-12 bg-slate-50">
+            <div class="max-w-3xl mx-auto px-4 sm:px-6">
+                <div class="bg-white rounded-2xl shadow-xl border border-slate-100 p-6 sm:p-10">
+                    <div class="mb-8 border-b border-slate-100 pb-5">
+                        <h2 class="text-2xl font-bold text-slate-900">Formulir Pendaftaran Konsultasi</h2>
+                        <p class="text-sm text-slate-500 mt-1">Isi data pasien dan pilih jadwal yang tersedia di bawah ini.</p>
+                    </div>
+
+                    <form id="regForm" onsubmit="handleRegistration(event)" class="space-y-6">
+                        <!-- Tipe Konsultasi -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-2">Jenis Konsultasi <span class="text-rose-500">*</span></label>
+                            <div class="grid grid-cols-2 gap-4">
+                                <label class="flex items-center p-3.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50">
+                                    <input type="radio" name="consultType" value="Tatap Muka di Klinik" class="text-brand-600 focus:ring-brand-500" checked>
+                                    <span class="ml-2.5 text-sm font-medium text-slate-800"><i class="fa-solid fa-hospital text-brand-600 mr-1.5"></i> Tatap Muka</span>
+                                </label>
+                                <label class="flex items-center p-3.5 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition has-[:checked]:border-brand-600 has-[:checked]:bg-brand-50/50">
+                                    <input type="radio" name="consultType" value="Konsultasi Online via WA" class="text-brand-600 focus:ring-brand-500">
+                                    <span class="ml-2.5 text-sm font-medium text-slate-800"><i class="fa-brands fa-whatsapp text-emerald-600 mr-1.5"></i> Online (WA)</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <!-- Data Diri Pasien -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Nama Lengkap Pasien <span class="text-rose-500">*</span></label>
+                                <input type="text" id="fullName" required placeholder="Contoh: Budi Pratama" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">NIK (Sesuai KTP) <span class="text-rose-500">*</span></label>
+                                <input type="text" id="nik" required maxlength="16" placeholder="16 digit NIK" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm">
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Nomor WhatsApp / HP <span class="text-rose-500">*</span></label>
+                                <input type="tel" id="phone" required placeholder="Contoh: 081234567890" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-semibold text-slate-700 mb-1">Jenis Kelamin <span class="text-rose-500">*</span></label>
+                                <select id="gender" required class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm">
+                                    <option value="">-- Pilih Jenis Kelamin --</option>
+                                    <option value="Laki-laki">Laki-laki</option>
+                                    <option value="Perempuan">Perempuan</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Pilih Tanggal Konsultasi -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Tanggal Konsultasi <span class="text-rose-500">*</span></label>
+                            <input type="date" id="consultDate" required onchange="onDateChanged()" class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm">
+                            <span id="dayNameDisplay" class="text-xs font-semibold text-brand-600 mt-1 block"></span>
+                        </div>
+
+                        <!-- Filter Dokter Berdasarkan Hari -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Pilih Dokter Praktik <span class="text-rose-500">*</span></label>
+                            <select id="doctorSelect" required onchange="onDoctorChanged()" disabled class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm disabled:bg-slate-100 disabled:cursor-not-allowed">
+                                <option value="">-- Pilih Tanggal Terlebih Dahulu --</option>
+                            </select>
+                        </div>
+
+                        <!-- Jam Praktik Dokter -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Pilih Slot Jam Praktik <span class="text-rose-500">*</span></label>
+                            <select id="timeSlotSelect" required disabled class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm disabled:bg-slate-100 disabled:cursor-not-allowed">
+                                <option value="">-- Pilih Dokter Terlebih Dahulu --</option>
+                            </select>
+                        </div>
+
+                        <!-- Keluhan / Catatan Medis -->
+                        <div>
+                            <label class="block text-sm font-semibold text-slate-700 mb-1">Keluhan Singkat <span class="text-rose-500">*</span></label>
+                            <textarea id="complaint" rows="3" required placeholder="Jelaskan keluhan medis atau gejala yang dirasakan..." class="w-full px-4 py-2.5 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition text-sm"></textarea>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="btnSubmit" class="w-full py-3.5 px-6 rounded-xl font-bold text-white bg-brand-600 hover:bg-brand-700 shadow-lg shadow-brand-600/30 transition transform active:scale-98 flex justify-center items-center">
+                            <i class="fa-solid fa-paper-plane mr-2"></i> Kirim Pendaftaran & Ambil Tiket
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 4: CEK ANTREAN -->
+        <section id="tab-antrean" class="tab-content hidden py-12 bg-slate-50">
+            <div class="max-w-2xl mx-auto px-4">
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-100 p-6 sm:p-8">
+                    <div class="text-center mb-6">
+                        <div class="w-12 h-12 bg-brand-50 text-brand-600 rounded-full flex items-center justify-center mx-auto mb-3 text-xl">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-slate-900">Cek Status Antrean Pasien</h2>
+                        <p class="text-xs sm:text-sm text-slate-500 mt-1">Masukkan Kode Tiket (misal: AVC-8492) atau Nomor Telepon pendaftaran Anda.</p>
+                    </div>
+
+                    <div class="flex gap-2 mb-6">
+                        <input type="text" id="searchQuery" placeholder="Kode Tiket atau No. WA..." class="flex-grow px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-brand-500 outline-none text-sm">
+                        <button onclick="searchQueue()" class="px-6 py-3 bg-brand-600 hover:bg-brand-700 text-white font-semibold rounded-xl transition text-sm">
+                            Cari
+                        </button>
+                    </div>
+
+                    <div id="searchResults" class="space-y-4 hidden">
+                        <!-- Result Items via JS -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 5: KONTAK & WA -->
+        <section id="tab-kontak" class="tab-content hidden py-12 bg-slate-50">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="bg-white rounded-2xl shadow-lg border border-slate-100 overflow-hidden">
+                    <div class="p-6 sm:p-8 bg-brand-700 text-white">
+                        <h2 class="text-2xl font-bold mb-2">Hubungi Klinik Kesehatan Avicena</h2>
+                        <p class="text-brand-100 text-sm">Kami siap melayani kebutuhan konsultasi dan penanganan medis emergency Anda.</p>
+                    </div>
+
+                    <div class="p-6 sm:p-8 grid grid-cols-1 sm:grid-cols-2 gap-6">
+                        <div class="space-y-4">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-brand-50 text-brand-600 rounded-lg"><i class="fa-solid fa-location-dot text-lg"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Alamat Klinik</h4>
+                                    <p class="text-xs text-slate-600 leading-relaxed">Jl. Raya Rajeg - Mauk, Kec. Rajeg, Kabupaten Tangerang, Banten 15540</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-emerald-50 text-emerald-600 rounded-lg"><i class="fa-brands fa-whatsapp text-lg"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">WhatsApp Resmi / Call Center</h4>
+                                    <p class="text-xs text-slate-600">085883775921</p>
+                                    <a href="https://wa.me/6285883775921" target="_blank" class="inline-block mt-2 text-xs text-emerald-600 font-semibold hover:underline">
+                                        Chat Langsung via WhatsApp &rarr;
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-4 border-t sm:border-t-0 sm:border-l border-slate-100 pt-4 sm:pt-0 sm:pl-6">
+                            <div class="flex items-start space-x-3">
+                                <div class="p-2.5 bg-cyan-50 text-cyan-600 rounded-lg"><i class="fa-solid fa-clock text-lg"></i></div>
+                                <div>
+                                    <h4 class="font-bold text-slate-900 text-sm">Jam Operasional Klinik</h4>
+                                    <p class="text-xs text-slate-600">IGD / Layanan Umum: 24 Jam Non-Stop</p>
+                                    <p class="text-xs text-slate-600">Poli Spesialis: Sesuai Jadwal Praktik Dokter</p>
+                                </div>
+                            </div>
+
+                            <!-- Backend URL Config Panel -->
+                            <div class="mt-6 pt-4 border-t border-slate-100">
+                                <label class="block text-xs font-bold text-slate-700 mb-1"><i class="fa-solid fa-gear text-brand-600"></i> Integrasi Google Apps Script URL</label>
+                                <input type="url" id="scriptUrlInput" placeholder="https://script.google.com/macros/s/.../exec" class="w-full px-3 py-2 text-xs border border-slate-300 rounded-lg focus:ring-1 focus:ring-brand-500 outline-none mb-2">
+                                <button onclick="saveScriptUrl()" class="w-full py-2 bg-slate-800 text-white text-xs font-semibold rounded-lg hover:bg-slate-900 transition">
+                                    Simpan URL Backend
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TAB 6: BACKEND CODE VIEWER -->
+        <section id="tab-backend" class="tab-content hidden py-12 bg-slate-50">
+            <div class="max-w-4xl mx-auto px-4">
+                <div class="bg-slate-900 rounded-2xl shadow-2xl overflow-hidden text-slate-100">
+                    <div class="p-4 sm:p-6 bg-slate-800 flex justify-between items-center border-b border-slate-700">
+                        <div>
+                            <h3 class="font-bold text-emerald-400 text-base sm:text-lg flex items-center">
+                                <i class="fa-solid fa-code mr-2"></i> Google Apps Script Code (Kode.gs)
+                            </h3>
+                            <p class="text-xs text-slate-400 mt-0.5">Salin kode ini ke editor Google Apps Script Anda untuk mengaktifkan database spreadsheet.</p>
+                        </div>
+                        <button onclick="copyBackendCode()" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg transition flex items-center">
+                            <i class="fa-solid fa-copy mr-1.5"></i> Salin Kode
+                        </button>
+                    </div>
+                    <div class="p-4 sm:p-6 overflow-x-auto">
+                        <pre class="text-xs font-mono text-emerald-300 leading-relaxed"><code>/* Backend Google Apps Script untuk Klinik Kesehatan Avicena Rajeg */
+
+function doPost(e) {
+  var lock = LockService.getScriptLock();
+  lock.tryLock(10000);
+  
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = JSON.parse(e.postData.contents);
+    var timestamp = new Date();
+    var status = data.status || "Menunggu";
+    
+    var newRow = [
+      timestamp,
+      data.ticketCode || "",
+      data.queueNumber || "",
+      data.fullName || "",
+      data.nik || "",
+      data.dob || "",
+      data.phone || "",
+      data.gender || "",
+      data.complaint || "",
+      data.consultType || "",
+      data.doctor || "",
+      data.consultDate || "",
+      data.consultTime || "",
+      status
+    ];
+    
+    sheet.appendRow(newRow);
+    
+    return ContentService
+      .createTextOutput(JSON.stringify({ 
+        "result": "success", 
+        "message": "Pendaftaran berhasil disimpan!",
+        "ticketCode": data.ticketCode,
+        "queueNumber": data.queueNumber
+      }))
+      .setMimeType(ContentService.MimeType.JSON);
+      
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ "result": "error", "message": error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } finally {
+    lock.releaseLock();
+  }
+}
+
+function doGet(e) {
+  try {
+    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+    var data = sheet.getDataRange().getValues();
+    var ticketCode = e.parameter.ticketCode;
+    var phone = e.parameter.phone;
+    
+    var results = [];
+    for (var i = 1; i < data.length; i++) {
+      var row = data[i];
+      if ((ticketCode && row[1].toString().toLowerCase() === ticketCode.toLowerCase()) || 
+          (phone && row[6].toString().includes(phone))) {
+        results.push({
+          timestamp: row[0],
+          ticketCode: row[1],
+          queueNumber: row[2],
+          fullName: row[3],
+          doctor: row[10],
+          consultDate: row[11],
+          consultTime: row[12],
+          status: row[13] || "Menunggu"
+        });
+      }
+    }
+    return ContentService
+      .createTextOutput(JSON.stringify({ "result": "success", "data": results }))
+      .setMimeType(ContentService.MimeType.JSON);
+  } catch (error) {
+    return ContentService
+      .createTextOutput(JSON.stringify({ "result": "error", "message": error.toString() }))
+      .setMimeType(ContentService.MimeType.JSON);
+  }
+}</code></pre>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- MODAL TIKET DIGITAL -->
+    <div id="ticketModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4 overflow-y-auto">
+        <div class="bg-white rounded-3xl shadow-2xl max-w-md w-full overflow-hidden transform transition-all">
+            <!-- Modal Header -->
+            <div class="bg-brand-600 p-6 text-white text-center relative">
+                <button onclick="closeTicketModal()" class="absolute right-4 top-4 text-white/80 hover:text-white text-xl">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+                <div class="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center mx-auto mb-2 text-2xl">
+                    <i class="fa-solid fa-ticket"></i>
+                </div>
+                <h3 class="text-xl font-bold">Tiket Antrean Digital</h3>
+                <p class="text-xs text-brand-100">Klinik Kesehatan Avicena Rajeg</p>
+            </div>
+
+            <!-- Printable Ticket Area -->
+            <div id="printableTicket" class="p-6 space-y-4">
+                <div class="text-center bg-brand-50 p-4 rounded-2xl border border-brand-100">
+                    <span class="text-xs font-semibold text-brand-700 tracking-wider uppercase">Nomor Antrean Anda</span>
+                    <div id="modalQueueNumber" class="text-4xl font-extrabold text-brand-700 my-1">A-012</div>
+                    <span id="modalTicketCode" class="inline-block px-3 py-1 bg-white rounded-full text-xs font-mono font-bold text-slate-600 shadow-sm">AVC-8492</span>
+                </div>
+
+                <div class="space-y-2.5 text-xs text-slate-700 border-t border-b border-slate-100 py-3">
+                    <div class="flex justify-between"><span class="text-slate-400">Nama Pasien:</span> <span id="modalPatientName" class="font-bold"></span></div>
+                    <div class="flex justify-between"><span class="text-slate-400">Dokter:</span> <span id="modalDoctor" class="font-bold text-right"></span></div>
+                    <div class="flex justify-between"><span class="text-slate-400">Tanggal:</span> <span id="modalDate" class="font-bold"></span></div>
+                    <div class="flex justify-between"><span class="text-slate-400">Jam Praktik:</span> <span id="modalTime" class="font-bold"></span></div>
+                    <div class="flex justify-between"><span class="text-slate-400">Tipe Layanan:</span> <span id="modalConsultType" class="font-bold"></span></div>
+                </div>
+
+                <!-- QR Code Simulation Container -->
+                <div class="flex flex-col items-center justify-center pt-2">
+                    <div id="qrcode" class="p-2 bg-white border border-slate-200 rounded-xl shadow-sm"></div>
+                    <span class="text-[10px] text-slate-400 mt-2">Tunjukkan QR Code ini ke petugas loket pendaftaran</span>
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="p-6 bg-slate-50 border-t border-slate-100 flex flex-col gap-2.5">
+                <button onclick="sendToWhatsApp()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl shadow-md transition flex items-center justify-center">
+                    <i class="fa-brands fa-whatsapp text-lg mr-2"></i> Konfirmasi via WhatsApp
+                </button>
+                <button onclick="printTicket()" class="w-full py-3 px-4 bg-slate-800 hover:bg-slate-900 text-white text-xs font-bold rounded-xl transition flex items-center justify-center">
+                    <i class="fa-solid fa-print mr-2"></i> Cetak / Simpan Tiket
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Notification Toast -->
+    <div id="toast" class="fixed bottom-5 right-5 bg-slate-900 text-white px-5 py-3 rounded-xl shadow-2xl text-xs font-medium z-50 transform translate-y-20 opacity-0 transition-all duration-300"></div>
+
+    <script>
+        // Data 7 Dokter Lengkap
+        const DOCTORS = [
+            {
+                id: 1,
+                name: "dr. H. Ahmad Fauzi, Sp.PD",
+                spec: "Spesialis Penyakit Dalam",
+                img: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+                days: ["Senin", "Rabu", "Jumat"],
+                times: ["08:00 - 12:00", "16:00 - 20:00"]
+            },
+            {
+                id: 2,
+                name: "dr. Siti Rahmah, Sp.A",
+                spec: "Spesialis Anak",
+                img: "https://awsimages.detik.net.id/community/media/visual/2016/12/20/56bebe68-da59-461d-b55a-491d598b71d5_43.jpg?w=600&q=90",
+                days: ["Senin", "Selasa", "Kamis", "Sabtu"],
+                times: ["09:00 - 13:00", "15:00 - 18:00"]
+            },
+            {
+                id: 3,
+                name: "dr. Budi Santoso, Sp.OG",
+                spec: "Spesialis Kandungan",
+                img: "https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=400&q=80",
+                days: ["Selasa", "Kamis", "Sabtu"],
+                times: ["10:00 - 14:00", "17:00 - 21:00"]
+            },
+            {
+                id: 4,
+                name: "dr. Maya Putri, Sp.DVE",
+                spec: "Spesialis Kulit & Kelamin",
+                img: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=400&q=80",
+                days: ["Rabu", "Jumat", "Minggu"],
+                times: ["13:00 - 17:00"]
+            },
+            {
+                id: 5,
+                name: "dr. Rian Hidayat, Sp.B",
+                spec: "Spesialis Bedah Umum",
+                img: "https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?auto=format&fit=crop&w=400&q=80",
+                days: ["Senin", "Rabu", "Sabtu"],
+                times: ["14:00 - 18:00"]
+            },
+            {
+                id: 6,
+                name: "dr. Dewanti Lestari",
+                spec: "Dokter Gigi",
+                img: "https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=400&q=80",
+                days: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+                times: ["09:00 - 12:00", "16:00 - 20:00"]
+            },
+            {
+                id: 7,
+                name: "dr. Farhan Zulkarnaen",
+                spec: "Dokter Umum",
+                img: "https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=400&q=80",
+                days: ["Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu", "Minggu"],
+                times: ["08:00 - 16:00 (Shift 1)", "16:00 - 24:00 (Shift 2)"]
+            }
+        ];
+
+        const DAY_NAMES = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+        let currentTicketData = null;
+
+        window.onload = function() {
+            renderDoctorCards();
+            setMinConsultDate();
+            loadScriptUrl();
+        };
+
+        // Render Cards Dokter ke HTML
+        function renderDoctorCards() {
+            const container = document.getElementById('doctorsGrid');
+            container.innerHTML = DOCTORS.map(doc => `
+                <div class="bg-white rounded-2xl border border-slate-100 shadow-sm hover:shadow-md transition overflow-hidden flex flex-col justify-between">
+                    <div>
+                        <div class="h-48 overflow-hidden bg-slate-100 relative">
+                            <img src="${doc.img}" 
+                                 onerror="this.src='https://placehold.co/400x300/0d9488/ffffff?text=${encodeURIComponent(doc.name)}'" 
+                                 alt="${doc.name}" 
+                                 class="w-full h-full object-cover">
+                            <span class="absolute bottom-3 left-3 bg-slate-900/70 backdrop-blur-sm text-white text-[10px] px-2.5 py-1 rounded-md font-medium">
+                                ${doc.spec}
+                            </span>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="font-bold text-slate-900 text-base mb-2">${doc.name}</h3>
+                            <div class="space-y-1.5 text-xs text-slate-600 mb-4">
+                                <div class="flex items-center text-slate-500">
+                                    <i class="fa-solid fa-calendar text-brand-600 w-4 mr-1.5"></i>
+                                    <span>${doc.days.join(', ')}</span>
+                                </div>
+                                <div class="flex items-center text-slate-500">
+                                    <i class="fa-solid fa-clock text-brand-600 w-4 mr-1.5"></i>
+                                    <span>${doc.times.join(' | ')}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-5 pb-5">
+                        <button onclick="selectDoctorAndRegister(${doc.id})" class="w-full py-2.5 bg-brand-50 hover:bg-brand-600 text-brand-700 hover:text-white font-semibold text-xs rounded-xl transition flex items-center justify-center">
+                            <i class="fa-solid fa-calendar-plus mr-1.5"></i> Pilih Dokter Ini
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Set minimal tanggal input = Hari Ini
+        function setMinConsultDate() {
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('consultDate');
+            dateInput.min = today;
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.add('hidden'));
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('bg-brand-50', 'text-brand-600');
+                btn.classList.add('text-slate-600');
+            });
+
+            const activeTab = document.getElementById(`tab-${tabId}`);
+            if (activeTab) activeTab.classList.remove('hidden');
+
+            const activeNav = document.getElementById(`nav-${tabId}`);
+            if (activeNav && tabId !== 'backend') {
+                activeNav.classList.add('bg-brand-50', 'text-brand-600');
+            }
+
+            document.getElementById('mobileMenu').classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMobileMenu() {
+            document.getElementById('mobileMenu').classList.toggle('hidden');
+        }
+
+        function onDateChanged() {
+            const dateVal = document.getElementById('consultDate').value;
+            const docSelect = document.getElementById('doctorSelect');
+            const timeSelect = document.getElementById('timeSlotSelect');
+            const dayDisplay = document.getElementById('dayNameDisplay');
+
+            if (!dateVal) {
+                docSelect.disabled = true;
+                timeSelect.disabled = true;
+                return;
+            }
+
+            const selectedDate = new Date(dateVal + 'T00:00:00');
+            const dayName = DAY_NAMES[selectedDate.getDay()];
+            dayDisplay.textContent = `Hari Terpilih: ${dayName}`;
+
+            // Filter dokter yang berpraktik pada hari ini
+            const availableDoctors = DOCTORS.filter(d => d.days.includes(dayName));
+
+            docSelect.innerHTML = '<option value="">-- Pilih Dokter Terseedia --</option>';
+            availableDoctors.forEach(doc => {
+                docSelect.innerHTML += `<option value="${doc.id}">${doc.name} (${doc.spec})</option>`;
+            });
+
+            docSelect.disabled = false;
+            timeSelect.innerHTML = '<option value="">-- Pilih Dokter Terlebih Dahulu --</option>';
+            timeSelect.disabled = true;
+        }
+
+        function onDoctorChanged() {
+            const docId = document.getElementById('doctorSelect').value;
+            const timeSelect = document.getElementById('timeSlotSelect');
+
+            if (!docId) {
+                timeSelect.disabled = true;
+                return;
+            }
+
+            const selectedDoctor = DOCTORS.find(d => d.id == docId);
+            timeSelect.innerHTML = '<option value="">-- Pilih Slot Jam Praktik --</option>';
+            
+            selectedDoctor.times.forEach(time => {
+                timeSelect.innerHTML += `<option value="${time}">${time}</option>`;
+            });
+
+            timeSelect.disabled = false;
+        }
+
+        function selectDoctorAndRegister(docId) {
+            switchTab('pendaftaran');
+            
+            // Set tanggal ke hari ini sebagai default
+            const today = new Date().toISOString().split('T')[0];
+            const dateInput = document.getElementById('consultDate');
+            dateInput.value = today;
+            onDateChanged();
+
+            // Cek apakah dokter terpilih ada di hari ini, jika tidak, cari hari buka terdekat
+            const docSelect = document.getElementById('doctorSelect');
+            if (Array.from(docSelect.options).some(opt => opt.value == docId)) {
+                docSelect.value = docId;
+                onDoctorChanged();
+            } else {
+                showToast("Dokter tersebut tidak praktik hari ini. Silakan pilih tanggal lain.");
+            }
+        }
+
+        async function handleRegistration(event) {
+            event.preventDefault();
+            const btnSubmit = document.getElementById('btnSubmit');
+            btnSubmit.disabled = true;
+            btnSubmit.innerHTML = '<i class="fa-solid fa-spinner animate-spin mr-2"></i> Memproses Pendaftaran...';
+
+            const consultType = document.querySelector('input[name="consultType"]:checked').value;
+            const fullName = document.getElementById('fullName').value;
+            const nik = document.getElementById('nik').value;
+            const phone = document.getElementById('phone').value;
+            const gender = document.getElementById('gender').value;
+            const consultDate = document.getElementById('consultDate').value;
+            const docId = document.getElementById('doctorSelect').value;
+            const consultTime = document.getElementById('timeSlotSelect').value;
+            const complaint = document.getElementById('complaint').value;
+
+            const selectedDoctor = DOCTORS.find(d => d.id == docId);
+
+            // Generate Kode Tiket dan Antrean
+            const randomCode = Math.floor(1000 + Math.random() * 9000);
+            const ticketCode = `AVC-${randomCode}`;
+            const queueNum = `A-${Math.floor(10 + Math.random() * 80)}`;
+
+            const payload = {
+                ticketCode,
+                queueNumber: queueNum,
+                fullName,
+                nik,
+                phone,
+                gender,
+                consultType,
+                doctor: selectedDoctor.name,
+                consultDate,
+                consultTime,
+                complaint
+            };
+
+            currentTicketData = payload;
+
+            // Simpan ke LocalStorage untuk simulasi pencarian
+            saveToLocalHistory(payload);
+
+            // Kirim ke Google Apps Script Backend jika URL dikonfigurasi
+            const scriptUrl = localStorage.getItem('avicena_script_url');
+            if (scriptUrl) {
+                try {
+                    await fetch(scriptUrl, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                } catch (err) {
+                    console.log('Error kirim ke Gas Script:', err);
+                }
+            }
+
+            btnSubmit.disabled = false;
+            btnSubmit.innerHTML = '<i class="fa-solid fa-paper-plane mr-2"></i> Kirim Pendaftaran & Ambil Tiket';
+
+            showTicketModal(payload);
+            document.getElementById('regForm').reset();
+            document.getElementById('doctorSelect').disabled = true;
+            document.getElementById('timeSlotSelect').disabled = true;
+        }
+
+        function showTicketModal(data) {
+            document.getElementById('modalQueueNumber').textContent = data.queueNumber;
+            document.getElementById('modalTicketCode').textContent = data.ticketCode;
+            document.getElementById('modalPatientName').textContent = data.fullName;
+            document.getElementById('modalDoctor').textContent = data.doctor;
+            document.getElementById('modalDate').textContent = data.consultDate;
+            document.getElementById('modalTime').textContent = data.consultTime;
+            document.getElementById('modalConsultType').textContent = data.consultType;
+
+            // Generate QR Code
+            const qrcodeContainer = document.getElementById('qrcode');
+            qrcodeContainer.innerHTML = '';
+            new QRCode(qrcodeContainer, {
+                text: `${data.ticketCode}|${data.fullName}|${data.queueNumber}`,
+                width: 100,
+                height: 100
+            });
+
+            document.getElementById('ticketModal').classList.remove('hidden');
+        }
+
+        function closeTicketModal() {
+            document.getElementById('ticketModal').classList.add('hidden');
+        }
+
+        function sendToWhatsApp() {
+            if (!currentTicketData) return;
+            const targetPhone = "6285883775921";
+            const text = `Halo Admin Klinik Avicena Rajeg,%0A%0ASaya ingin mengonfirmasi pendaftaran janji medis:%0A- *Kode Tiket:* ${currentTicketData.ticketCode}%0A- *No. Antrean:* ${currentTicketData.queueNumber}%0A- *Nama Pasien:* ${currentTicketData.fullName}%0A- *Dokter:* ${currentTicketData.doctor}%0A- *Tanggal:* ${currentTicketData.consultDate}%0A- *Jam Praktik:* ${currentTicketData.consultTime}%0A- *Layanan:* ${currentTicketData.consultType}%0A%0AMohon konfirmasi, terima kasih.`;
+            
+            window.open(`https://wa.me/${targetPhone}?text=${text}`, '_blank');
+        }
+
+        function printTicket() {
+            window.print();
+        }
+
+        function saveToLocalHistory(data) {
+            let history = JSON.parse(localStorage.getItem('avicena_queue_history') || '[]');
+            data.status = "Menunggu";
+            history.unshift(data);
+            localStorage.setItem('avicena_queue_history', JSON.stringify(history));
+        }
+
+        function searchQueue() {
+            const query = document.getElementById('searchQuery').value.trim().toLowerCase();
+            const resultsContainer = document.getElementById('searchResults');
+
+            if (!query) {
+                showToast("Masukkan Kode Tiket atau Nomor HP.");
+                return;
+            }
+
+            const history = JSON.parse(localStorage.getItem('avicena_queue_history') || '[]');
+            const filtered = history.filter(item => 
+                item.ticketCode.toLowerCase().includes(query) || 
+                item.phone.includes(query)
+            );
+
+            resultsContainer.classList.remove('hidden');
+
+            if (filtered.length === 0) {
+                resultsContainer.innerHTML = `
+                    <div class="text-center p-6 bg-slate-100 rounded-xl text-xs text-slate-500">
+                        Data antrean tidak ditemukan untuk kueri "${query}".
+                    </div>
+                `;
+                return;
+            }
+
+            resultsContainer.innerHTML = filtered.map(item => `
+                <div class="p-4 bg-slate-50 rounded-xl border border-slate-200 flex justify-between items-center">
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="font-bold text-slate-900 text-sm">${item.fullName}</span>
+                            <span class="text-[10px] font-mono bg-white px-2 py-0.5 rounded border border-slate-200 font-bold">${item.ticketCode}</span>
+                        </div>
+                        <p class="text-xs text-slate-500 mt-1">${item.doctor} | ${item.consultDate}</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="px-2.5 py-1 bg-amber-100 text-amber-800 text-[10px] font-bold rounded-full">
+                            ${item.status || 'Menunggu'}
+                        </span>
+                        <div class="text-xs font-bold text-brand-600 mt-1">${item.queueNumber}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function saveScriptUrl() {
+            const url = document.getElementById('scriptUrlInput').value.trim();
+            localStorage.setItem('avicena_script_url', url);
+            showToast("URL Google Apps Script berhasil disimpan!");
+        }
+
+        function loadScriptUrl() {
+            const savedUrl = localStorage.getItem('avicena_script_url');
+            if (savedUrl) {
+                document.getElementById('scriptUrlInput').value = savedUrl;
+            }
+        }
+
+        function copyBackendCode() {
+            const code = `function doPost(e) {\n  var lock = LockService.getScriptLock();\n  lock.tryLock(10000);\n  try {\n    var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();\n    var data = JSON.parse(e.postData.contents);\n    var timestamp = new Date();\n    var status = data.status || "Menunggu";\n    var newRow = [timestamp, data.ticketCode, data.queueNumber, data.fullName, data.nik, data.dob, data.phone, data.gender, data.complaint, data.consultType, data.doctor, data.consultDate, data.consultTime, status];\n    sheet.appendRow(newRow);\n    return ContentService.createTextOutput(JSON.stringify({"result":"success"})).setMimeType(ContentService.MimeType.JSON);\n  } catch(err) {\n    return ContentService.createTextOutput(JSON.stringify({"result":"error","message":err.toString()})).setMimeType(ContentService.MimeType.JSON);\n  } finally {\n    lock.releaseLock();\n  }\n}`;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                showToast("Kode Backend berhasil disalin ke clipboard!");
+            }).catch(() => {
+                showToast("Gagal menyalin kode.");
+            });
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.remove('translate-y-20', 'opacity-0');
+            setTimeout(() => {
+                toast.classList.add('translate-y-20', 'opacity-0');
+            }, 3000);
+        }
+    </script>
+</body>
+</html>
